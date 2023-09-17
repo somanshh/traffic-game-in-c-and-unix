@@ -68,6 +68,7 @@ void move_player(int row, int col, char **map, int *player_row, int *player_col 
     
     if( map[*player_row][*player_col] == '<' || map[*player_row][*player_col] == '>' ) 
     {
+    
         *thePlayerHasHitByCar = 1;
     } 
 
@@ -86,12 +87,12 @@ void move_cars(int row, int col, char **map)
     for (int i = 1; i < row - 1; i += 2)
     {
         // Get a random starting position for the car
-        int new_rand_col = rand() % (col-2) + 1 ;
+        int new_rand_col = rand() % (col-2) + 1;
         
-        while( map[i][new_rand_col] == PLAYER ) new_rand_col = rand() % (col-2)+1;
+        while( map[i][new_rand_col] == PLAYER ) new_rand_col = rand() % (col-2) + 1;
 
         int curr_posOf_car = 0;
-        char curr_dirOf_car = '<';
+        char curr_dirOf_car ;
 
         for (int j = 1; j < col; j++)
         {
@@ -100,14 +101,15 @@ void move_cars(int row, int col, char **map)
                 curr_dirOf_car = '<';
                 map[i][j] = ROAD;
                 curr_posOf_car = j;
-                new_rand_col = rand() % (j)+1;
+                new_rand_col = (rand() % j)+1;
             }
             else if (map[i][j] == '>')
             {
                 curr_dirOf_car = '>';
                 map[i][j] = ROAD;
                 curr_posOf_car = j;
-                new_rand_col = (rand() % (j)) + ((col-2)-j);
+                new_rand_col = (rand() % (j)) + (j+1);
+                while(new_rand_col >= col-1) new_rand_col = (rand()%j)+(j+1);
             }
         }
 
